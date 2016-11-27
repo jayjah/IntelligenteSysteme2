@@ -38,42 +38,52 @@ app.setColoringAttributes(ca);
 
    universe.getViewingPlatform().setNominalViewingTransform();
    
-   QuadArray qa=new QuadArray(4*800*1000,GeometryArray.COORDINATES);
+   QuadArray qa=new QuadArray(4*80*100,GeometryArray.COORDINATES | GeometryArray.COLOR_3 );
    TransformGroup main_matrix=new TransformGroup();
-   float size=0.02f;
-   for(int y=0;y<1000;y++)
-	   for(int x=0;x<800;x++){
+   main_matrix.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+   float size=0.0150f;
+   for(int y=0;y<100;y++)
+	   for(int x=0;x<80;x++){
 		   //p1
 		   
+		   Color3f[] colors=new Color3f[4];
 		   
-		   
-		   float px=(float)(x-400)*size;
-		   float py=(float)(y-500)*size;
+		   float px=(float)(x-40)*size;
+		   float py=(float)(y-50)*size;
 		   
 		   Point3f[] coords=new Point3f[4];
-		   coords[2]=new Point3f(px,py,0);
+		   coords[0]=new Point3f(px,py,-0.3f);
 		   
 		 //p2
-		   coords[0]=new Point3f(px+size,py,0);
+		   coords[1]=new Point3f(px+size,py,-0.3f);
 		   
 		 //p3
-		   coords[1]=new Point3f(px,py+size,0);
+		   
+		   coords[2]=new Point3f(px+size,py+size,-0.3f);
+		   coords[3]=new Point3f(px,py+size,-0.3f);
 		   
 		 //p4
-		   coords[3]=new Point3f(px+size,py+size,0);
-		   qa.setCoordinates(((y)*800+x)*4, coords);
 		   
+		   qa.setCoordinates(((y)*80+x)*4, coords);
 		   
+		   for(int i=0;i<4;i++)
+			   colors[i]=new Color3f(py*4.0f,px*4.0f,1.0f);
+		   
+		   qa.setColors(((y)*80+x)*4,colors);
+		
 		  
 	   }
    
+
+
+   
    Shape3D s3d=new Shape3D(qa,app);
-   s3d.setGeometry(qa);
+   
    //s3d.addGeometry(qa);
    main_matrix.addChild(s3d);
    
    Transform3D mt=new Transform3D();
-   mt.rotX((-Math.PI/2)+0.3);
+   mt.rotX((-Math.PI/2)+0.1f);
    main_matrix.setTransform(mt);
    transformgroup.addChild(main_matrix);
    branchgroup.addChild(transformgroup);
@@ -83,9 +93,9 @@ app.setColoringAttributes(ca);
    float test=0;
    for(;;){
 	   //universe.cleanup();
-	   transform.setRotation(new AxisAngle4f(new Vector3f(0.0f,0.0001f,0.0f),test));
-	   transformgroup.setTransform(transform);
-	   test+=0.01;
+	   transform.setRotation(new AxisAngle4f(new Vector3f(0.0f,0.0001f,00f),test));
+	  transformgroup.setTransform(transform);
+	   test+=0.005;
 	   
 	   
 	   try {
