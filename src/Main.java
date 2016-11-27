@@ -5,6 +5,7 @@ import com.sun.j3d.utils.universe.*;
 import javafx.geometry.Point3D;
 
 import java.awt.GraphicsConfiguration;
+import java.util.Random;
 
 import javax.media.j3d.*;
 
@@ -16,11 +17,15 @@ public class Main {
 public Main()
 
 {
-	float[][] testdataarray=new float[82][102];
+	int xdim=800;
+	int ydim=1000;
 	
-	for(int y=0;y<102;y++)
-		for(int x=0;x<82;x++)
-			testdataarray[x][y]=(float)Math.abs((Math.sin(x/4.0f)+Math.sin(y/4.0f))/20.0f);
+	Random rnd=new Random();
+	float[][] testdataarray=new float[xdim+2][ydim+2];
+	
+	for(int y=0;y<ydim+2;y++)
+		for(int x=0;x<xdim+2;x++)
+			testdataarray[x][y]=(float)Math.abs((Math.sin((x+rnd.nextFloat()*2)/4.0f)+Math.sin((y+rnd.nextFloat()*4)/4.0f))/25.0f);
    SimpleUniverse universe = new SimpleUniverse();
    
 //universe.getCanvas().setSize(300,300);
@@ -40,41 +45,41 @@ app.setColoringAttributes(ca);
 
    universe.getViewingPlatform().setNominalViewingTransform();
    
-   QuadArray qa=new QuadArray(4*80*100,GeometryArray.COORDINATES | GeometryArray.COLOR_3 );
+   QuadArray qa=new QuadArray(4*xdim*ydim,GeometryArray.COORDINATES | GeometryArray.COLOR_3 );
    TransformGroup main_matrix=new TransformGroup();
    main_matrix.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
    float size=0.0150f;
-   for(int y=0;y<100;y++)
-	   for(int x=0;x<80;x++){
+   for(int y=0;y<ydim;y++)
+	   for(int x=0;x<xdim;x++){
 		   //p1
 		   
 		   Color3f[] colors=new Color3f[4];
 		   
-		   float px=(float)(x-40)*size;
-		   float py=(float)(y-50)*size;
+		   float px=(float)(x-(xdim/2))*size;
+		   float py=(float)(y-(ydim/2))*size;
 		   
 		   Point3f[] coords=new Point3f[4];
-		   coords[0]=new Point3f(px,py,-0.3f+testdataarray[x][y]);
+		   coords[0]=new Point3f(px,py,-0.3f+testdataarray[x][y]*(size*100));
 		   
 		 //p2
-		   coords[1]=new Point3f(px+size,py,-0.3f+testdataarray[x+1][y]);
+		   coords[1]=new Point3f(px+size,py,-0.3f+testdataarray[x+1][y]*(size*100));
 		   
 		 //p3
 		   
-		   coords[2]=new Point3f(px+size,py+size,-0.3f+testdataarray[x+1][y+1]);
-		   coords[3]=new Point3f(px,py+size,-0.3f+testdataarray[x][y+1]);
+		   coords[2]=new Point3f(px+size,py+size,-0.3f+testdataarray[x+1][y+1]*(size*100));
+		   coords[3]=new Point3f(px,py+size,-0.3f+testdataarray[x][y+1]*(size*100));
 		   
 		 //p4
 		   
-		   qa.setCoordinates(((y)*80+x)*4, coords);
+		   qa.setCoordinates(((y)*xdim+x)*4, coords);
 		   
 		  
-			   colors[0]=new Color3f(0.4f,testdataarray[x][y]*10.0f,1-testdataarray[x][y]*10.0f);
-			   colors[1]=new Color3f(0.4f,testdataarray[x+1][y]*10.0f,1-testdataarray[x+1][y]*10.0f);
-			   colors[2]=new Color3f(0.4f,testdataarray[x+1][y+1]*10.0f,1-testdataarray[x+1][y+1]*10.0f);
-			   colors[3]=new Color3f(0.4f,testdataarray[x][y+1]*10.0f,1-testdataarray[x][y+1]*10.0f);
+			   colors[0]=new Color3f(testdataarray[x][y]*20.0f,testdataarray[x][y]*10.0f,1-testdataarray[x][y]*12.5f);
+			   colors[1]=new Color3f(testdataarray[x+1][y]*20.0f,testdataarray[x+1][y]*10.0f,1-testdataarray[x+1][y]*12.5f);
+			   colors[2]=new Color3f(testdataarray[x+1][y+1]*20.0f,testdataarray[x+1][y+1]*10.0f,1-testdataarray[x+1][y+1]*12.5f);
+			   colors[3]=new Color3f(testdataarray[x][y+1]*20.0f,testdataarray[x][y+1]*10.0f,1-testdataarray[x][y+1]*12.5f);
 		   
-		   qa.setColors(((y)*80+x)*4,colors);
+		   qa.setColors(((y)*xdim+x)*4,colors);
 		
 		  
 	   }
@@ -100,12 +105,12 @@ app.setColoringAttributes(ca);
 	   //universe.cleanup();
 	   transform.setRotation(new AxisAngle4f(new Vector3f(0.0f,0.0001f,00f),test));
 	  transformgroup.setTransform(transform);
-	   test+=0.005;
+	   test+=0.001;
 	   
 	   
 	   try {
 		Thread.currentThread();
-		Thread.sleep(10);
+		Thread.sleep(15);
 	} catch (InterruptedException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
