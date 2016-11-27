@@ -25,7 +25,7 @@ public Main()
 	
 	for(int y=0;y<ydim+2;y++)
 		for(int x=0;x<xdim+2;x++)
-			testdataarray[x][y]=(float)Math.abs((Math.sin((x+rnd.nextFloat()*2)/4.0f)+Math.sin((y+rnd.nextFloat()*4)/4.0f))/25.0f);
+			testdataarray[x][y]=(float)Math.abs((Math.sin((x+rnd.nextFloat()*2)/4.0f)+Math.cos(((x/4)*(y/16))/64.0)+Math.sin((y+rnd.nextFloat()*4)/4.0f))/25.0f);
    SimpleUniverse universe = new SimpleUniverse();
    
 //universe.getCanvas().setSize(300,300);
