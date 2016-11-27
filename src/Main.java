@@ -16,9 +16,11 @@ public class Main {
 public Main()
 
 {
+	float[][] testdataarray=new float[82][102];
 	
-	
-	
+	for(int y=0;y<102;y++)
+		for(int x=0;x<82;x++)
+			testdataarray[x][y]=(float)Math.abs((Math.sin(x/4.0f)+Math.sin(y/4.0f))/20.0f);
    SimpleUniverse universe = new SimpleUniverse();
    
 //universe.getCanvas().setSize(300,300);
@@ -52,22 +54,25 @@ app.setColoringAttributes(ca);
 		   float py=(float)(y-50)*size;
 		   
 		   Point3f[] coords=new Point3f[4];
-		   coords[0]=new Point3f(px,py,-0.3f);
+		   coords[0]=new Point3f(px,py,-0.3f+testdataarray[x][y]);
 		   
 		 //p2
-		   coords[1]=new Point3f(px+size,py,-0.3f);
+		   coords[1]=new Point3f(px+size,py,-0.3f+testdataarray[x+1][y]);
 		   
 		 //p3
 		   
-		   coords[2]=new Point3f(px+size,py+size,-0.3f);
-		   coords[3]=new Point3f(px,py+size,-0.3f);
+		   coords[2]=new Point3f(px+size,py+size,-0.3f+testdataarray[x+1][y+1]);
+		   coords[3]=new Point3f(px,py+size,-0.3f+testdataarray[x][y+1]);
 		   
 		 //p4
 		   
 		   qa.setCoordinates(((y)*80+x)*4, coords);
 		   
-		   for(int i=0;i<4;i++)
-			   colors[i]=new Color3f(py*4.0f,px*4.0f,1.0f);
+		  
+			   colors[0]=new Color3f(0.4f,testdataarray[x][y]*10.0f,1-testdataarray[x][y]*10.0f);
+			   colors[1]=new Color3f(0.4f,testdataarray[x+1][y]*10.0f,1-testdataarray[x+1][y]*10.0f);
+			   colors[2]=new Color3f(0.4f,testdataarray[x+1][y+1]*10.0f,1-testdataarray[x+1][y+1]*10.0f);
+			   colors[3]=new Color3f(0.4f,testdataarray[x][y+1]*10.0f,1-testdataarray[x][y+1]*10.0f);
 		   
 		   qa.setColors(((y)*80+x)*4,colors);
 		
