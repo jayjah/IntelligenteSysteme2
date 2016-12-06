@@ -21,24 +21,31 @@ public class Visualisator implements Runnable {
 	private float[][] data;
 
 	private int xdim;
-
+	private float scale=1.0f;
 	private int ydim;
 
-	Visualisator(float[][] data, int xdim, int ydim) {
+	Visualisator(float[][] data, int xdim, int ydim, float min, float max) {
 		this.ydim = ydim;
 		this.xdim = xdim;
+		scale=1.0f/(max-min);
+		Random rnd = new Random();
+
+		for (int y = 0; y < ydim + 2; y++)
+			for (int x = 0; x < xdim + 2; x++)
+				data[x][y] = (data[x][y]-min)*scale;
+				//(float) Math.abs((Math.sin((x + rnd.nextFloat() * 2) / 4.0f)
+						//+ Math.cos(((x / 4) * (y / 16)) / 64.0) + Math.sin((y + rnd.nextFloat() * 4) / 4.0f)) / 25.0f);
+		
+		
 		this.data = data;
 	}
 
 	@Override
 	public void run() {
 
-		Random rnd = new Random();
-
-		for (int y = 0; y < ydim + 2; y++)
-			for (int x = 0; x < xdim + 2; x++)
-				data[x][y] = (float) Math.abs((Math.sin((x + rnd.nextFloat() * 2) / 4.0f)
-						+ Math.cos(((x / 4) * (y / 16)) / 64.0) + Math.sin((y + rnd.nextFloat() * 4) / 4.0f)) / 25.0f);
+		
+		
+		
 		SimpleUniverse universe = new SimpleUniverse();
 
 		// universe.getCanvas().setSize(300,300);
@@ -61,7 +68,7 @@ public class Visualisator implements Runnable {
 		QuadArray qa = new QuadArray(4 * xdim * ydim, GeometryArray.COORDINATES | GeometryArray.COLOR_3);
 		TransformGroup main_matrix = new TransformGroup();
 		main_matrix.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		float size = 0.0150f;
+		float size = 0.0020f;
 		for (int y = 0; y < ydim; y++)
 			for (int x = 0; x < xdim; x++) {
 				// p1
@@ -86,11 +93,11 @@ public class Visualisator implements Runnable {
 
 				qa.setCoordinates(((y) * xdim + x) * 4, coords);
 
-				colors[0] = new Color3f(data[x][y] * 20.0f, data[x][y] * 10.0f, 1 - data[x][y] * 12.5f);
-				colors[1] = new Color3f(data[x + 1][y] * 20.0f, data[x + 1][y] * 10.0f, 1 - data[x + 1][y] * 12.5f);
-				colors[2] = new Color3f(data[x + 1][y + 1] * 20.0f, data[x + 1][y + 1] * 10.0f,
-						1 - data[x + 1][y + 1] * 12.5f);
-				colors[3] = new Color3f(data[x][y + 1] * 20.0f, data[x][y + 1] * 10.0f, 1 - data[x][y + 1] * 12.5f);
+				colors[0] = new Color3f(data[x][y], data[x][y] * 0.0f, (1 - data[x][y])*0.6f);
+				colors[1] = new Color3f(data[x + 1][y] , data[x + 1][y] *  0.0f, (1 - data[x + 1][y] )*0.6f);
+				colors[2] = new Color3f(data[x + 1][y + 1] , data[x + 1][y + 1] * 0.0f,
+						(1 - data[x + 1][y + 1])*0.6f );
+				colors[3] = new Color3f(data[x][y + 1], data[x][y + 1] * 0.0f, (1 - data[x][y + 1])*0.6f );
 
 				qa.setColors(((y) * xdim + x) * 4, colors);
 
