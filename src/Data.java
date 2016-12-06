@@ -1,11 +1,11 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.vecmath.Point2d;
-import javax.vecmath.Point2f;
+
 
 public class Data {
 
@@ -86,12 +86,12 @@ public class Data {
 		try {
 			scanner=new Scanner(new FileReader(file_data));
 			scanner_label = new Scanner(new FileReader(file_label));
-			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		//read once to get the dimensions
 		while (scanner.hasNextLine()) {
 		this.ydim++;
 			String line = scanner.nextLine();
@@ -100,31 +100,36 @@ public class Data {
 
 		}
 		scanner.close();
+		
 		try {
 			scanner=new Scanner(new FileReader(file_data));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.data = new float[this.xdim + 2][this.ydim + 2];
-		int cy=0;
 		
+		//Size the data array in the read dimensions (+2 because we generate a quad for 4 values later while stepping 2)
+		this.data = new float[this.xdim + 2][this.ydim + 2];
+		
+		//Read second time into the initialized array - while doing that, also find the min and max value
+		int cy=0;
 		while (scanner.hasNextLine()) {
-				
-				String line = scanner.nextLine();
-				String[] array = line.split(",");
-				int cx=0;
-				for (String a : array) {
-					this.data[cx][cy]=(Float.parseFloat(a));
-					if(this.data[cx][cy]>max)
-						this.max=data[cx][cy];
-					if(this.data[cx][cy]<min)
-						this.min=data[cx][cy];
-					//System.out.println(a);
-					cx++;
-				}
-				cy++;
+			String line = scanner.nextLine();
+			String[] array = line.split(",");
+			int cx=0;
+			for (String a : array) {
+				this.data[cx][cy]=(Float.parseFloat(a));
+				if(this.data[cx][cy]>max)
+					this.max=data[cx][cy];
+				if(this.data[cx][cy]<min)
+					this.min=data[cx][cy];
+				cx++;
 			}
+			cy++;
+		}
+		scanner.close();
+		
+		//clear the labels list and read the labels into one Point2d each. Then add them to the list
 		this.labels.clear();
 		while (scanner_label.hasNextLine()) {
 			String line=scanner_label.nextLine();
