@@ -95,11 +95,11 @@ public class Visualisator implements Runnable {
 
 				qa.setCoordinates(((y) * xdim + x) * 4, coords);
 
-				colors[0] = new Color3f(data[x][y], data[x][y] * 0.0f, (1 - data[x][y])*0.6f);
-				colors[1] = new Color3f(data[x + 1][y] , data[x + 1][y] *  0.0f, (1 - data[x + 1][y] )*0.6f);
+				colors[0] = new Color3f(data[x][y], data[x][y] * 0.0f, (1 - data[x][y])*0.4f);
+				colors[1] = new Color3f(data[x + 1][y] , data[x + 1][y] *  0.0f, (1 - data[x + 1][y] )*0.4f);
 				colors[2] = new Color3f(data[x + 1][y + 1] , data[x + 1][y + 1] * 0.0f,
-						(1 - data[x + 1][y + 1])*0.6f );
-				colors[3] = new Color3f(data[x][y + 1], data[x][y + 1] * 0.0f, (1 - data[x][y + 1])*0.6f );
+						(1 - data[x + 1][y + 1])*0.4f );
+				colors[3] = new Color3f(data[x][y + 1], data[x][y + 1] * 0.0f, (1 - data[x][y + 1])*0.4f );
 
 				qa.setColors(((y) * xdim + x) * 4, colors);
 
