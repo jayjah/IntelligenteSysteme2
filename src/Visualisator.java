@@ -31,8 +31,10 @@ public class Visualisator implements Runnable {
 		Random rnd = new Random();
 
 		for (int y = 0; y < ydim + 2; y++)
-			for (int x = 0; x < xdim + 2; x++)
-				data[x][y] = (data[x][y]-min)*scale;
+			for (int x = 0; x < xdim + 2; x++){
+				data[x][y] = ((data[x][y]-min)*scale)>=0?(data[x][y]-min)*scale:0.0f;
+			System.out.println(data[x][y]);	
+			}
 				//(float) Math.abs((Math.sin((x + rnd.nextFloat() * 2) / 4.0f)
 						//+ Math.cos(((x / 4) * (y / 16)) / 64.0) + Math.sin((y + rnd.nextFloat() * 4) / 4.0f)) / 25.0f);
 		
