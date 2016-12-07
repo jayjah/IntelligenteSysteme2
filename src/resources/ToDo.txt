@@ -1,0 +1,12 @@
+Todo:
+
+1: 	Visualisator: Cubes auf die Labels setzen.
+
+2: 	Filter bauen. 	Kriterien:
+					
+					Lokales Maximum
+					-> Steigung zum umliegenden Punkt (Offset/Threshold?!)
+					
+	Labels sollten eine Range sein, nicht ein spezifischer Punkt wie angegeben.
+					
+	

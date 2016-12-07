@@ -20,6 +20,9 @@ public class Filter {
 		
 		
 	}
+	public void addFilter(Filter f){
+		this.filters.add(f);
+	}
 	
 	public Data work(Data input){
 		Data temp=input;

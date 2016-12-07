@@ -24,12 +24,16 @@ public class Visualisator implements Runnable {
 		this.ydim = ydim;
 		this.xdim = xdim;
 		scale=1.0f/(max-min);
-		this.data = data;
+		
+		this.data=new float[xdim+2][ydim+2];
+		
+		
+
 		
 		//Scale the data for the view: Substract the minimum value to put the lowest to 0.0 - Then scale everything so that the maximum value is 1.0.
 		for (int y = 0; y < ydim + 2; y++)
 			for (int x = 0; x < xdim + 2; x++){
-				this.data[x][y] = ((this.data[x][y]-min)*scale)>=0?(this.data[x][y]-min)*scale:0.0f;	
+				this.data[x][y] = ((data[x][y]-min)*scale)>=0?(data[x][y]-min)*scale:0.0f;	
 			}
 		}
 
