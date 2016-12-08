@@ -11,7 +11,7 @@ public class Main {
 		Filter testfilter=new TestFilter();
 		
 		
-		Visualisator vis = new Visualisator(d.getData(),d.getXdim(),d.getYdim(),d.getMin(),d.getMax());
+		Visualisator vis = new Visualisator(d.getData(),d.getLabels(),d.getXdim(),d.getYdim(),d.getMin(),d.getMax());
 		for(int i=0;i<d.getYdim();i++)
 			for(int j=0;j<d.getXdim();j++){
 				System.out.println(d.getData()[j][i]);
@@ -19,7 +19,7 @@ public class Main {
 		
 		Thread t1 = new Thread(vis);
 		t1.start();
-
+		
 	}
 
 } // end of class Hello3d
