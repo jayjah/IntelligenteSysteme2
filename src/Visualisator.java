@@ -139,7 +139,7 @@ public class Visualisator implements Runnable {
 
 		//Rotate it on the x-axis so we don't view from top
 		Transform3D mt = new Transform3D();
-		mt.rotX((-Math.PI / 2) + 0.1f);
+		mt.rotX((-Math.PI / 2) + 0.0f);
 		main_matrix.setTransform(mt);
 		
 		//Add the matrix to the transformgroup

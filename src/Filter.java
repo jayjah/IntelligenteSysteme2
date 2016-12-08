@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import javax.vecmath.Point2d;
+
 
 //Irgendwie so hab ich mir das gedacht.
 //Von dieser Klasse verschiedene Filter ableiten. Jeder Filter kann Filter enthalten.
@@ -7,7 +9,31 @@ import java.util.ArrayList;
 
 public class Filter {
 	private ArrayList<Filter> filters;
-
+	
+	protected double getAverageHeightOfLine(Data d, int line){
+		
+		double retval=0.0;
+		for(int i=0;i<d.getXdim();i++)
+			retval+=d.getData()[i][line];
+		retval=retval/d.getXdim();
+		
+		return retval;
+		
+		
+	}
+	
+protected double getAverageHeightOfRow(Data d, int row){
+		
+		double retval=0.0;
+		for(int i=0;i<d.getYdim();i++)
+			retval+=d.getData()[row][i];
+		retval=retval/d.getYdim();
+		
+		return retval;
+		
+		
+	}
+	
 	public ArrayList<Filter> getFilters() {
 		return filters;
 	}
@@ -17,7 +43,7 @@ public class Filter {
 	}
 	
 	public Filter(){
-		
+		this.filters=new ArrayList<Filter>();
 		
 	}
 	public void addFilter(Filter f){

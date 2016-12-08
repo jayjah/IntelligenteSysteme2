@@ -9,4 +9,9 @@ Todo:
 					
 	Labels sollten eine Range sein, nicht ein spezifischer Punkt wie angegeben.
 					
+					
+	Idee: Durchschnitt der Zeile berechnen. Alle Punkte unter dem Durchschnitt können keine Maxima sein. -> Planieren. -> Erster Filter -> Funzt
+	Zweiter Schritt: Liste von durchschnitt pro berg erzeugen (Invertiertes Floodfill): Berg unter Durchschnitt? -> Noise. Planieren. -> Zweiter filter
 	
+	Übrig bleiben alle Peak-Berge. Pro berg maximum suchen. Das sind die gesuchten Peaks. Done \o/
+	Fscore annähernd 1, Diggah!
