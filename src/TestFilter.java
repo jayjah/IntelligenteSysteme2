@@ -34,6 +34,9 @@ public class TestFilter extends Filter {
 		//nu gehts weiter: durchschnittliche berglänge ermitteln, berge unter durchschnitt killen
 		int checkwidth=64;
 	
+		
+		
+		
 		for(int i=0;i<(dd.getXdim()/checkwidth);i++){
 			int length=super.getAverageHillLengthOfRowFromTo(dd, (i*checkwidth), (i*checkwidth)+checkwidth);
 			System.out.println(length);
