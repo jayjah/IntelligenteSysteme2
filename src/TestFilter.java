@@ -101,9 +101,9 @@ public class TestFilter extends Filter {
 					
 					}
 				}
+				
+				
 				*/
-				
-				
 				
 				for(int x=0;x<d.getXdim();x++){
 					ArrayList<Float> averages=peakpoints_rows.get(x);
