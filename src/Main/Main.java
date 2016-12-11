@@ -1,7 +1,11 @@
+package Main;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.vecmath.Point2d;
+
+import Filters.Filter;
+import Filters.TestFilter;
 
 
 public class Main {
@@ -9,8 +13,8 @@ public class Main {
 	
 	
 	public static void main(String[] args) {
-		Data d=new Data(Paths.get("","src","resources","data2.csv").toAbsolutePath().toString(),Paths.get("","src","resources","label2.csv").toAbsolutePath().toString());
-		Data d2=new Data(Paths.get("","src","resources","data2.csv").toAbsolutePath().toString(),Paths.get("","src","resources","label2.csv").toAbsolutePath().toString());
+		Data d=new Data(Paths.get("","src","resources","data1.csv").toAbsolutePath().toString(),Paths.get("","src","resources","label1.csv").toAbsolutePath().toString());
+		Data d2=new Data(Paths.get("","src","resources","data1.csv").toAbsolutePath().toString(),Paths.get("","src","resources","label1.csv").toAbsolutePath().toString());
 		
 		
 		
@@ -18,8 +22,8 @@ public class Main {
 		Filter testfilter=new TestFilter();
 		
 		d=testfilter.work(d);
-		for(int i=0;i<200;i++)
-			d=testfilter.work(d);
+		
+		
 		int result_count=0;
 		for(int y=0;y<d.getYdim();y++)
 			for(int x=0;x<d.getXdim();x++)
@@ -39,9 +43,12 @@ public class Main {
 					templ.add(new Point2d(x,y));
 		
 		int numberofcorrectfoundlabels=0;
+		int neighbourhoodDistance=8;
 		for(Point2d point : d.getLabels()){
 			for(Point2d foundpoints : templ){
-				if (foundpoints.x==point.x && foundpoints.y==point.y){
+				if (	(foundpoints.x==point.x && foundpoints.y==point.y)
+					||	(Math.abs(foundpoints.x-point.x)<neighbourhoodDistance && Math.abs(foundpoints.y-point.y)<neighbourhoodDistance && d2.getData()[(int) foundpoints.x][(int) foundpoints.y]==d2.getData()[(int) point.x][(int) point.y])
+						){
 					numberofcorrectfoundlabels++;
 					break;
 				}
@@ -55,7 +62,7 @@ public class Main {
 		Visualisator orig_vis = new Visualisator(d2.getData(), templ,d2.getXdim(),d2.getYdim(),d.getMin(),d2.getMax());
 		Thread t2 = new Thread(orig_vis);
 		
-		System.out.print("p: "+d.getLabels().size()+"/"+result_count);
+		System.out.print("p: "+numberofcorrectfoundlabels+"/"+result_count);
 		System.out.print("="+p+"\n");
 		System.out.print("r: "+numberofcorrectfoundlabels+"/"+d.getLabels().size());
 		System.out.print("="+r+"\n");

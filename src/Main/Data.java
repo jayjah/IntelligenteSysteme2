@@ -1,3 +1,4 @@
+package Main;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
@@ -77,6 +78,22 @@ public class Data {
 	
 	public Data(String file_data, String file_label) {
 		readFromFile(file_data, file_label);
+	}
+	
+	//Fill in: Clone-Constructor :)
+	public Data(Data d){
+		this.max=d.getMax();
+		this.min=d.getMin();
+		this.xdim=d.getXdim();
+		this.ydim=d.getYdim();
+		this.data=new float[d.getXdim()+2][d.getYdim()+2];
+		this.labels=new ArrayList<Point2d>();
+		float[][] tempdata=d.getData();
+		this.labels.addAll(d.getLabels());
+		for(int y=0;y<d.getYdim()+2;y++)
+			for(int x=0;x<d.getXdim()+2;x++){
+				this.data[x][y]=tempdata[x][y];
+			}
 	}
 	
 	private void readFromFile(String file_data, String file_label) {

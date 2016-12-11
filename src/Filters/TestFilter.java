@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package Filters;
+import Main.Data;
 
 public class TestFilter extends Filter {
 
@@ -9,33 +10,32 @@ public class TestFilter extends Filter {
 		Data dd= super.work(d);
 		float[][] data=dd.getData();
 		//Hier Zeugs mit den Daten machen.
-		int threshold=30;
+		int treshold=30;
 		
 		//pass1
 		for(int x=0;x<d.getXdim();x++){
 			double average=super.getAverageHeightOfRow(d, x);
 			for(int y=0;y<d.getYdim();y++)
-				data[x][y]=(data[x][y]<=(float)average+(average/threshold))?(float)0.0f:dd.getData()[x][y];
+				data[x][y]=(data[x][y]<=(float)average+(average/treshold))?(float)0.0f:dd.getData()[x][y];
 				
 		}
 		
-		//pass2
-		threshold=-10;
-		for(int x=0;x<d.getXdim();x++){
-			double average=super.getAverageHeightOfRow(d, x);
-			for(int y=0;y<d.getYdim();y++)
-				data[x][y]=(data[x][y]<=(float)average+(average/threshold))?(float)0.0f:dd.getData()[x][y];
-				
-		}
+		
+		
+		
+		
 		
 		dd.setData(data);
 		data=dd.getData();
+		
+		Filter f=new FloodFillLocalMaximaFilter();
+		dd=f.work(dd);
 		
 		//nu gehts weiter: durchschnittliche berglänge ermitteln, berge unter durchschnitt killen
 		int checkwidth=64;
 	
 		
-		
+		/*
 		
 		for(int i=0;i<(dd.getXdim()/checkwidth);i++){
 			int length=super.getAverageHillLengthOfRowFromTo(dd, (i*checkwidth), (i*checkwidth)+checkwidth);
@@ -102,9 +102,9 @@ public class TestFilter extends Filter {
 					}
 				}
 				
-				
 				*/
 				
+				/*
 				for(int x=0;x<d.getXdim();x++){
 					ArrayList<Float> averages=peakpoints_rows.get(x);
 					
@@ -130,7 +130,7 @@ public class TestFilter extends Filter {
 					}
 				}
 				
-				
+				*/
 				
 				dd.setData(data);
 				data=dd.getData();

@@ -1,6 +1,10 @@
+package Filters;
+
+
+
 import java.util.ArrayList;
 
-import javax.vecmath.Point2d;
+import Main.Data;
 
 
 //Irgendwie so hab ich mir das gedacht.
@@ -34,7 +38,7 @@ public class Filter {
 					nexthill=true;
 					values.add(d.getData()[i][line]);
 				}
-				if(d.getData()[i][line]>=values.get(values.size()-1))
+				if(d.getData()[i][line]>values.get(values.size()-1))
 					values.set(values.size()-1,d.getData()[i][line]);
 			}
 			else{
@@ -59,7 +63,7 @@ public class Filter {
 					nexthill=true;
 					values.add(d.getData()[row][i]);
 				}
-				if(d.getData()[row][i]>=values.get(values.size()-1))
+				if(d.getData()[row][i]>values.get(values.size()-1))
 					values.set(values.size()-1,d.getData()[row][i]);
 			}
 			else{
@@ -97,13 +101,14 @@ public Integer getAverageHillLengthOfRowFromTo(Data d, int rowFrom, int rowTo){
 		int hillsfound=0;
 		boolean nexthill=false;
 		for(int i=0;i<d.getYdim();i++){
-			
+			if(row<d.getYdim()){
 			if(d.getData()[row][i]!=0.0f){
 				rowsSumVal[row-rowFrom]++;
 				if(!nexthill){
 					hillsfound++;
 					nexthill=true;
 				}
+			}
 			}
 			else
 				nexthill=false;
