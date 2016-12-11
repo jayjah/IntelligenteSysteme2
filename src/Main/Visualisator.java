@@ -14,7 +14,6 @@ import javax.vecmath.Point2d;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
-import com.sun.j3d.utils.geometry.ColorCube;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
 public class Visualisator implements Runnable {
@@ -34,7 +33,7 @@ public class Visualisator implements Runnable {
 	private float scale=1.0f;
 	private int ydim;
 
-	Visualisator(float[][] data, ArrayList<Point2d> labels, int xdim, int ydim, float min, float max) {
+	public Visualisator(float[][] data, ArrayList<Point2d> labels, int xdim, int ydim, float min, float max) {
 		this.labels=labels;
 		this.updateData(data, xdim, ydim, min, max);
 		

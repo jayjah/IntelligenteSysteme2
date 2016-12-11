@@ -14,6 +14,9 @@ public class Data {
 	
 	private int xdim = 0;
 	private int ydim = 0;
+	private ArrayList<Point2d> labels=new ArrayList<Point2d>();
+	private float min=100000.0f;
+	private float max=0.0f;
 	
 	public int getXdim() {
 		return xdim;
@@ -63,37 +66,8 @@ public class Data {
 		this.max = max;
 	}
 
-	
-	private ArrayList<Point2d> labels=new ArrayList<Point2d>();
-	private float min=100000.0f;
-	private float max=0.0f;
-	
-	
-	public Data(float[][] data, ArrayList<Point2d> labels, float min, float max) {
-		this.data = data;
-		this.labels = labels;
-		this.min = min;
-		this.max = max;
-	}
-	
 	public Data(String file_data, String file_label) {
 		readFromFile(file_data, file_label);
-	}
-	
-	//Fill in: Clone-Constructor :)
-	public Data(Data d){
-		this.max=d.getMax();
-		this.min=d.getMin();
-		this.xdim=d.getXdim();
-		this.ydim=d.getYdim();
-		this.data=new float[d.getXdim()+2][d.getYdim()+2];
-		this.labels=new ArrayList<Point2d>();
-		float[][] tempdata=d.getData();
-		this.labels.addAll(d.getLabels());
-		for(int y=0;y<d.getYdim()+2;y++)
-			for(int x=0;x<d.getXdim()+2;x++){
-				this.data[x][y]=tempdata[x][y];
-			}
 	}
 	
 	private void readFromFile(String file_data, String file_label) {
@@ -155,7 +129,5 @@ public class Data {
 			this.labels.add(new Point2d(x,y));
 		}
 		scanner_label.close();
-		
-	}
-	
+	}	
 }
