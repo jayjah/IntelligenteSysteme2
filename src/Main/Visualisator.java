@@ -2,12 +2,12 @@ package Main;
 import java.util.ArrayList;
 
 import javax.media.j3d.BranchGroup;
-
 import javax.media.j3d.GeometryArray;
 import javax.media.j3d.QuadArray;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
+
 import javax.vecmath.AxisAngle4f;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point2d;
@@ -16,9 +16,17 @@ import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
+/**
+* Visualisator
+* 
+* <P>Creates a coloured heightmap of the given data, spawns a window and renders the map to it while slowly rotating the camera
+* <P>This class is a bit hacked. There are lots of possible optimizations.
+* 
+* @author Kim Oliver Schweikert, Markus Krebs
+* @version 1.0
+*/
 public class Visualisator implements Runnable {
 
-	
 	private SimpleUniverse universe = new SimpleUniverse();
 
 	private BranchGroup branchgroup = new BranchGroup();

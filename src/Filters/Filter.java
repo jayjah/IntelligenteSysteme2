@@ -4,9 +4,24 @@ import java.util.ArrayList;
 
 import Main.Data;
 
+/**
+* Basic Filter class.
+* 
+* <P>Provides basic functionality for a filter that can be applied to a data object. Superclass for custom filters.
+*  
+* @author Kim Oliver Schweikert, Markus Krebs
+* @version 1.0
+*/
 public class Filter {
 	private ArrayList<Filter> filters;
 	
+	/**
+	 * Calculates the average height of the given line
+	 *
+	 * @param  d 	the data object to search in
+	 * @param  line the line to get the average height from
+	 * @return      the average height of the line
+	 */
 	protected double getAverageHeightOfLine(Data d, int line){
 		double retval=0.0;
 		for(int i=0;i<d.getXdim();i++)
@@ -15,6 +30,27 @@ public class Filter {
 		return retval;
 	}
 	
+	/**
+	 * Calculates the average height of the given row
+	 *
+	 * @param  d 	the data object to search in
+	 * @param  row the row to get the average height from
+	 * @return      the average height of the row
+	 */
+	protected double getAverageHeightOfRow(Data d, int row){
+		double retval=0.0;
+		for(int i=0;i<d.getYdim();i++)
+			retval+=d.getData()[row][i];
+		retval=retval/d.getYdim();
+		return retval;
+	}
+	
+	/**
+	 * Calculates the maximum height of the given line
+	 * @param  d 	the data object to search in
+	 * @param  line the line to get the maximum height from
+	 * @return      the maximum height of the line
+	 */
 	protected ArrayList<Float> getHillsMaximumHeightofLine(Data d, int line){
 		ArrayList<Float> values=new ArrayList<Float>();
 		boolean nexthill=false;
@@ -34,6 +70,13 @@ public class Filter {
 		return values;
 	}
 	
+	/**
+	 * Calculates the maximum height of the given row
+	 *
+	 * @param  d 	the data object to search in
+	 * @param  row the row to get the maximum height from
+	 * @return      the maximum height of the row
+	 */
 	protected ArrayList<Float> getHillsMaximumHeightofRow(Data d, int row){
 		ArrayList<Float> values=new ArrayList<Float>();
 		boolean nexthill=false;
@@ -52,15 +95,15 @@ public class Filter {
 		}
 		return values;
 	}
-	
-protected double getAverageHeightOfRow(Data d, int row){
-		double retval=0.0;
-		for(int i=0;i<d.getYdim();i++)
-			retval+=d.getData()[row][i];
-		retval=retval/d.getYdim();
-		return retval;
-	}
 
+	/**
+	 * Calculates the average length of hills within a range of rows
+	 *
+	 * @param  d 		the data object to search in
+	 * @param  rowFrom 	the first row of the range
+	 * @param  rowFrom 	the last row of the range
+	 * @return      	average hill length within row range
+	 */
 	public Integer getAverageHillLengthOfRowFromTo(Data d, int rowFrom, int rowTo){
 		float[] rowsSumVal=new float[(rowTo-rowFrom)+1];
 		
@@ -68,7 +111,6 @@ protected double getAverageHeightOfRow(Data d, int row){
 			rowsSumVal[i]=0;
 		}
 		for(int row=rowFrom;row<rowTo;row++){
-			//Gegebene Reihe iterieren
 			int hillsfound=0;
 			boolean nexthill=false;
 			for(int i=0;i<d.getYdim();i++){
@@ -96,22 +138,44 @@ protected double getAverageHeightOfRow(Data d, int row){
 		else return 0;
 	}
 	
+	/**
+	 * 
+	 * @return get the (sub)filter list of this filter
+	 */
 	public ArrayList<Filter> getFilters() {
 		return filters;
 	}
-
+	
+	/**
+	 * 
+	 * @param set the (sub)filter list of this filter
+	 */
 	public void setFilters(ArrayList<Filter> filters) {
 		this.filters = filters;
 	}
-	
+	/**
+	 * Constructor
+	 * 
+	 * @param set the (sub)filter list of this filter
+	 */
 	public Filter(){
 		this.filters=new ArrayList<Filter>();
 		
 	}
+	
+	/**
+	 * 
+	 * @param f add a filter to the (sub)filter list of this filter
+	 */
 	public void addFilter(Filter f){
 		this.filters.add(f);
 	}
 	
+	/**
+	 * Applies the filter (and all containing sub filters) to the given data object (baked!)
+	 * 
+	 * @param data object to work on
+	 */
 	public void work(Data input){
 		//Filter Data by all Filters in the filterlist
 		for(Filter f:this.filters)

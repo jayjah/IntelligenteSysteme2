@@ -7,7 +7,14 @@ import java.util.Scanner;
 
 import javax.vecmath.Point2d;
 
-
+/**
+* Data class
+* 
+* <P>Contains all data to work with and apply filters to.
+* 
+* @author Kim Oliver Schweikert, Markus Krebs
+* @version 1.0
+*/
 public class Data {
 
 	private float[][] data;
@@ -15,7 +22,7 @@ public class Data {
 	private int xdim = 0;
 	private int ydim = 0;
 	private ArrayList<Point2d> labels=new ArrayList<Point2d>();
-	private float min=100000.0f;
+	private float min=1000000.0f;
 	private float max=0.0f;
 	
 	public int getXdim() {

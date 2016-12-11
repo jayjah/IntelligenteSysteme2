@@ -7,8 +7,17 @@ import javax.vecmath.Point2d;
 import Filters.Filter;
 import Filters.FloodFillLocalMaximaFilter;
 import Filters.KillTheNoiseFilter;
-import Filters.MainVisualFilterSet;
+import Filters.MainFilterSet;
 
+
+/**
+* Main class
+* 
+* <P>You get the (entry) point ;)
+* 
+* @author Kim Oliver Schweikert, Markus Krebs
+* @version 1.0
+*/
 public class Main {
 	public static void main(String[] args) {
 		//Reading the data. The filters will modify the workingData until only labels are left, then update the label list
@@ -21,7 +30,7 @@ public class Main {
 		new KillTheNoiseFilter(30.11).work(secondStepData);
 		
 		//Let the filters do their job: Kill the noise with a treshold of 30.11. Then find local maxima with floodfill while excluding hills with a surface too short compared to other hill lengths in the same 128 lines multiplied by 1.3. throw out double values within the distance of 10.
-		Filter mainFilterSet=new MainVisualFilterSet();
+		Filter mainFilterSet=new MainFilterSet();
 		mainFilterSet.addFilter(new KillTheNoiseFilter(30.11));
 		mainFilterSet.addFilter(new FloodFillLocalMaximaFilter(1.3,10,128));
 		mainFilterSet.work(workingData);

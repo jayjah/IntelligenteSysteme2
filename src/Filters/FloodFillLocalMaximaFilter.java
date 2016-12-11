@@ -1,8 +1,5 @@
 package Filters;
 
-
-
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
@@ -11,16 +8,33 @@ import javax.vecmath.Point2d;
 
 import Main.Data;
 
+/**
+* Floodfill local maxima filter
+* 
+* <P>Searches local maxima of hills in a 2 dimensional array while counting the polygons of the hill and destroying the hill to save runtime using an altered floodfill algorithm
+*  
+* @author Kim Oliver Schweikert, Markus Krebs
+* @version 1.0
+*/
 public class FloodFillLocalMaximaFilter extends Filter {
 
 	private double treshold=1.3f;
 	private int minRange=10;
 	private int rowScanWidth=128;
 	
+	/**
+	 * Constructor
+	 */
 	public FloodFillLocalMaximaFilter(){
 		super();
 	}
 	
+	/**
+	 * Constructor
+	 * @param  treshold 	treshold value for detecting false (too small) matches
+	 * @param  minRange 	Minimum range of another hill within found maximum to be valid
+	 * @param  rowScanWidth Range of lines to use for average hill length calculation
+	 */
 	public FloodFillLocalMaximaFilter(double treshold, int minRange, int rowScanWidth){
 		super();
 		this.treshold=treshold;
@@ -28,6 +42,11 @@ public class FloodFillLocalMaximaFilter extends Filter {
 		this.rowScanWidth=rowScanWidth;
 	}
 	
+	/**
+	 * Using the altered floodfill algorithm to destroy hills while saving the coordinates of their maximum value while counting vertices and comparing them to the average hill size,
+	 * sorting out possible doubled matches by checking the range. Finally setting the value of all found matches to 900.0f.
+	 * @param  dd 	Data to apply the filter to
+	 */
 	public void work(Data dd){
 		super.work(dd);
 
@@ -53,7 +72,16 @@ public class FloodFillLocalMaximaFilter extends Filter {
 			data[(int) p.x][(int) p.y]=900.0f;	
 	}
 	
-	//Altered floodfill algorithm: Doesn't fill but is using floodfill to find the maximum while "filling" within boarders of value borderValue
+	/**
+	 * Altered floodfill algorithm.
+	 * Using a stack of Points to make the algorithm non-recursive.
+	 * Anti-Flooding the values outlined by the given borderValue, starting at a certain point while calculating the maximum within the flooded area and counting polygons
+	 * used to check for possible false positives.
+	 * @param  point 		Point to start the algorithm at
+	 * @param borderValue	Value seen as outline value
+	 * @param data			Data object to work on
+	 * @return				Coordinate of the found maximum. Returns x=-1 if detecting a false positive 			
+	 */
 	private Point2d floodfindMax(Point2d point, float borderValue, Data dd) {
 		int polyCount=0;
 		Stack<Point2d> pointstack=new Stack<Point2d>();
