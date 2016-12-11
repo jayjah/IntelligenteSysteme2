@@ -81,7 +81,13 @@ public class Main {
 		t3.start();
 	}
 
-	//Calculate the harmonic mean for 2 values
+	/**
+	 * Calculate the harmonic mean of 2 double values
+	 * 
+	 * @param d1	Value 1
+	 * @param d2	Value 2
+	 * @return		Harmonic mean of the 2 given values
+	 */
 	public static double harmonicMean(double d1,double d2){  
 		return 2 / ((1.0 / d1)+(1.0 / d2));
 	}

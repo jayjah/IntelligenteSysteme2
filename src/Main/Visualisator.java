@@ -41,46 +41,67 @@ public class Visualisator implements Runnable {
 	private float scale=1.0f;
 	private int ydim;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param data		Data array to visualize
+	 * @param labels	List of the label coordinates to display
+	 * @param xdim		x-dimension of the map
+	 * @param ydim		y-dimension of the map
+	 * @param min		minimum value in the data array
+	 * @param max		maximum value in the data array
+	 */
 	public Visualisator(float[][] data, ArrayList<Point2d> labels, int xdim, int ydim, float min, float max) {
 		this.labels=labels;
 		this.updateData(data, xdim, ydim, min, max);
 		
 	}
 	
-	public void updateData(float[][] data, int xdim, int ydim, float min, float max){
+	/**
+	 * Update/Prepare the map data
+	 * 
+	 * @param data		Data array to visualize
+	 * @param xdim		x-dimension of the map
+	 * @param ydim		y-dimension of the map
+	 * @param min		minimum value in the data array
+	 * @param max		maximum value in the data array
+	 */
+	private void updateData(float[][] data, int xdim, int ydim, float min, float max){
 		this.ydim = ydim;
 		this.xdim = xdim;
 		scale=1.0f/(max-min);
 		
 		this.data=new float[xdim+2][ydim+2];
 		
-		
-		
-		
 		//Scale the data for the view: Substract the minimum value to put the lowest to 0.0 - Then scale everything so that the maximum value is 1.0.
 		for (int y = 0; y < ydim + 2; y++)
 			for (int x = 0; x < xdim + 2; x++){
 				this.data[x][y] = ((data[x][y]-min)*scale)>=0?(data[x][y]-min)*scale:0.0f;	
 			}
-		
 		transformgroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		universe.getViewingPlatform().setNominalViewingTransform();
 		main_matrix=new TransformGroup();
 		main_matrix.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 	}
 	
-
+	/**
+	 * Create the Heightmap 3D-Object from vertices, spawn a window and render the object while slowly rotating it
+	 * (good for meditational viewing at the data and thinking about a strategy - so: Don't increase the speed; it's perfect!)
+	 * 
+	 */
 	@Override
 	public void run() {
 		
-		
-		
+		//Array holding the Vertices for each quad. Every data value makes 4 vertices at the same position but part of 4 quads with the vertices next to each other
+		//so we have a heightmap made from quads
 		QuadArray qa = new QuadArray(4 * xdim * ydim, GeometryArray.COORDINATES | GeometryArray.COLOR_3);
 		
+		//Scale for proper displaying
 		float size = 0.0020f;
 		for (int y = 0; y < ydim; y++)
 			for (int x = 0; x < xdim; x++) {
-
+				
+				//Colors: from minimum to maximum value -> blue->red - - Labels are displayed as green vertices
 				Color3f[] colors = new Color3f[4];
 				Point3f[] coords = new Point3f[4];
 				
@@ -99,18 +120,16 @@ public class Visualisator implements Runnable {
 						islabel[3]=true;
 				}
 				
-				
-				
-				//Polygons for the Map
+				//Set the vertices for one quad
 				coords[0] = new Point3f(px, py, -0.3f + data[x][y] * (size * 100));
 				coords[1] = new Point3f(px + size, py, -0.3f + data[x + 1][y] * (size * 100));
 				coords[2] = new Point3f(px + size, py + size, -0.3f + data[x + 1][y + 1] * (size * 100));
 				coords[3] = new Point3f(px, py + size, -0.3f + data[x][y + 1] * (size * 100));
 				
-				//Add the quad of 4 polygons
+				//Add the quad of 4 vertices to the quadArray
 				qa.setCoordinates(((y) * xdim + x) * 4, coords);
 
-				//generate colors for those polygons
+				//generate colors for those vertices
 				if(islabel[0])
 					colors[0] = new Color3f(0,1,0);
 				else
@@ -131,11 +150,6 @@ public class Visualisator implements Runnable {
 				else
 					colors[3] = new Color3f(data[x][y + 1], data[x][y + 1] * 0.0f, (1 - data[x][y + 1])*0.4f );
 					
-				
-				
-				
-				
-				
 				//set the colors to the quad
 				qa.setColors(((y) * xdim + x) * 4, colors);
 			}

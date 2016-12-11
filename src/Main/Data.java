@@ -25,58 +25,118 @@ public class Data {
 	private float min=1000000.0f;
 	private float max=0.0f;
 	
+	/**
+	 * 
+	 * @return get the X dimension of the data array
+	 */
 	public int getXdim() {
 		return xdim;
 	}
 
+	/**
+	 * 
+	 * @param set the X dimension of the data array
+	 */
 	public void setXdim(int xdim) {
 		this.xdim = xdim;
 	}
 
+	/**
+	 * 
+	 * @return get the Y dimension of the data array
+	 */
 	public int getYdim() {
 		return ydim;
 	}
 
+	/**
+	 * 
+	 * @param set the Y dimension of the data array
+	 */
 	public void setYdim(int ydim) {
 		this.ydim = ydim;
 	}
 
+	/**
+	 * 
+	 * @return get the data array
+	 */
 	public float[][] getData() {
 		return data;
 	}
 
+	/**
+	 * 
+	 * @param set the X dimension of the data array
+	 */
 	public void setData(float[][] data) {
 		this.data = data;
 	}
 
+	/**
+	 * 
+	 * @return get the minimum value in the data array
+	 */
 	public float getMin() {
 		return min;
 	}
 
+	/**
+	 * 
+	 * @param set the minimum value in the data array
+	 */
 	public void setMin(float min) {
 		this.min = min;
 	}
 
+	/**
+	 * 
+	 * @return get the labels of found maxima in the data array
+	 */
 	public ArrayList<Point2d> getLabels() {
 		return labels;
 	}
 
+	/**
+	 * 
+	 * @param set the labels of found maxima in the data array
+	 */
 	public void setLabels(ArrayList<Point2d> labels) {
 		this.labels = labels;
 	}
 
+	/**
+	 * 
+	 * @return get the maximum value in the data array
+	 */
 	public float getMax() {
 		return max;
 	}
 
+	/**
+	 * 
+	 * @param set the maximum value in the data array
+	 */
 	public void setMax(float max) {
 		this.max = max;
 	}
 
+	/**
+	 * Constructor
+	 * 
+	 * @param file_data		Path of the csv containing the values
+	 * @param file_label	Path of the csv containing the reference labels
+	 */
 	public Data(String file_data, String file_label) {
 		readFromFile(file_data, file_label);
 	}
 	
+	/**
+	 * Read data and labels from file
+	 * 
+	 * @param file_data		Path of the csv containing the values
+	 * @param file_label	Path of the csv containing the reference labels
+	 */
 	private void readFromFile(String file_data, String file_label) {
 		Scanner scanner = null;
 		Scanner scanner_label = null;
@@ -85,7 +145,6 @@ public class Data {
 			scanner=new Scanner(new FileReader(file_data));
 			scanner_label = new Scanner(new FileReader(file_label));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -102,7 +161,6 @@ public class Data {
 		try {
 			scanner=new Scanner(new FileReader(file_data));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
